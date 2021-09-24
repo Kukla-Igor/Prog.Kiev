@@ -2,9 +2,9 @@ package task1Lv1;
 
 public class Product {
 
-	double price;
-	String description;
-	double weight;
+	private double price;
+	private String description;
+	private double weight;
 
 	public Product(double price, String description, double weight) {
 		super();
