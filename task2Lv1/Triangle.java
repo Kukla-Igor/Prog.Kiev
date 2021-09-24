@@ -1,9 +1,9 @@
 package task2Lv1;
 
 public class Triangle {
-	double a;
-	double b;
-	double c;
+	private double a;
+	private double b;
+	private double c;
 
 	public Triangle(double a, double b, double c) {
 		super();
