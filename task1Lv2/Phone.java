@@ -1,8 +1,8 @@
 package task1Lv2;
 
 public class Phone {
-	int num;
-	boolean regis;
+	private int num;
+	private boolean regis;
 
 	public Phone(int num) {
 		super();
@@ -44,14 +44,14 @@ public class Phone {
     	} else if (toCallNum.isRegis() == false) {
     		System.out.println("The number you are calling has not been registered in the network");
     	} else {
-    		incoming—all(toCallNum.getNum());
+    		incoming√ëall(toCallNum.getNum());
     	}
     	
     	
     	
     	}
     
-    public void incoming—all(int toCallNum) {
+    public void incoming√ëall(int toCallNum) {
 		System.out.println("Subscriber " + toCallNum + ", subscriber " + this.num + " calls you");
 	}
 }
