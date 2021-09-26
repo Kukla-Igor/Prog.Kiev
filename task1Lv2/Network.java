@@ -1,24 +1,44 @@
 package task1Lv2;
 
+
+import java.util.ArrayList;
+
 public class Network {
 
-	public static void main(String[] args) {
-		Phone phone1 = new Phone(11111111);
-		Phone phone2 = new Phone(22222222);
-		
-		phone1.outgoingCall(phone2);
-		phone2.outgoingCall(phone1);
-		
-		phone1.Registration();
-		
-		phone1.outgoingCall(phone2);
-		phone2.outgoingCall(phone1);
-		
-		phone2.Registration();
-		
-		phone1.outgoingCall(phone2);
-		phone2.outgoingCall(phone1);
+		private static ArrayList registeredNumbers = new ArrayList();
 
-	}
+		public Network(ArrayList registeredNumbers) {
+			super();
+			this.registeredNumbers = registeredNumbers;
+		}
 
+		public Network() {
+			super();
+		}
+
+		public ArrayList getRegisteredNumbers() {
+			return registeredNumbers;
+		}
+
+		public  void setRegisteredNumbers(ArrayList registeredNumbers) {
+			this.registeredNumbers = registeredNumbers;
+		}
+
+		public static boolean registration(int newNum) {
+			registeredNumbers.add(newNum);
+			return true;
+			
+		}
+		
+		public static boolean searhNum(int num) {
+			for (int i = 0; i < registeredNumbers.size(); i++) {
+				if (registeredNumbers.get(i).equals(num)) {
+					return true;
+				}
+			}
+			return false;
+			
+			
+		}
+		
 }
