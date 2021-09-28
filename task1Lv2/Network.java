@@ -1,44 +1,54 @@
 package task1Lv2;
 
-
-import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Network {
 
-		private static ArrayList registeredNumbers = new ArrayList();
+	private Phone[] registeredPhones = new Phone[10];
 
-		public Network(ArrayList registeredNumbers) {
-			super();
-			this.registeredNumbers = registeredNumbers;
-		}
+	public Network(Phone[] registeredPhones) {
+		super();
+		this.registeredPhones = registeredPhones;
+	}
 
-		public Network() {
-			super();
-		}
+	public Network() {
+		super();
+	}
 
-		public ArrayList getRegisteredNumbers() {
-			return registeredNumbers;
-		}
+	public Phone[] getRegisteredPhones() {
+		return registeredPhones;
+	}
 
-		public  void setRegisteredNumbers(ArrayList registeredNumbers) {
-			this.registeredNumbers = registeredNumbers;
-		}
+	public void setRegisteredPhones(Phone[] registeredPhones) {
+		this.registeredPhones = registeredPhones;
+	}
 
-		public static boolean registration(int newNum) {
-			registeredNumbers.add(newNum);
-			return true;
-			
-		}
-		
-		public static boolean searhNum(int num) {
-			for (int i = 0; i < registeredNumbers.size(); i++) {
-				if (registeredNumbers.get(i).equals(num)) {
-					return true;
-				}
+	@Override
+	public String toString() {
+		return "Network [registeredPhones=" + Arrays.toString(registeredPhones) + "]";
+	}
+
+	public Phone searhPhoneByNum(int num) {
+		for (int i = 0; i < registeredPhones.length; i++) {
+			if (registeredPhones[i] == null) {
+				return null;
+			} else if (registeredPhones[i].getNum() == num) {
+				return registeredPhones[i];
 			}
-			return false;
-			
-			
 		}
-		
+
+		return null;
+
+	}
+
+	public void register(Phone phone) {
+		for (int i = 0; i < registeredPhones.length; i++) {
+			if (registeredPhones[i] == null) {
+				registeredPhones[i] = phone;
+				System.out.println("Number " + phone.getNum() + " is registered");
+				return;
+			}
+		}
+	}
+
 }

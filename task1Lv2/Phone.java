@@ -1,8 +1,8 @@
 package task1Lv2;
 
 public class Phone {
-	int num;
-	boolean regis;
+	private int num;
+	private Network net;
 
 	public Phone(int num) {
 		super();
@@ -21,42 +21,41 @@ public class Phone {
 		this.num = num;
 	}
 
-	public boolean isRegis() {
-		return regis;
+	public Network getNet() {
+		return net;
 	}
 
-	public void setRegis(boolean regis) {
-		this.regis = regis;
+	public void setNet(Network net) {
+		this.net = net;
 	}
 
 	public String toString() {
-		return "Phone [num=" + num + ", regis=" + regis + "]";
+		return "Phone [num=" + num + ", regis=" + net + "]";
 	}
 
-    public boolean registration() {
-    	if(Network.registration(this.num)) {
-    		return regis = true;
-    	} else {
-    		return false;
-    	}
-    	
-		
+	public void registration(Network net) {
+		this.net = net;
+		if (net.searhPhoneByNum(this.num) == null) {
+			net.register(this);
+		}
+
 	}
-    
-    public void outgoingCall(int toCallNum) {
-    	if (regis == false) {
-    		System.out.println("Your number was not registered on the network");
-    	} else if (!Network.searhNum(toCallNum)) {
-    		System.out.println("The number you are calling has not been registered in the network");
-    	} else {
-    		incomingÑall(toCallNum);
-    	}
-    	
-    	
-    	
-    	}
-    
-    public void incomingÑall(int toCallNum) {
-		System.out.println("Subscriber " + toCallNum + ", subscriber " + this.num + " calls you");
+
+	public void outgoingCall(int toCallNum) {
+		if (net == null || net.searhPhoneByNum(this.num) == null) {
+			System.out.println("Your number was not registered on the network");
+			return;
+		} else if (net.searhPhoneByNum(toCallNum) == null) {
+			System.out.println("The number you are calling has not been registered in the network");
+			return;
+		}
+
+		Phone phoneTo = net.searhPhoneByNum(toCallNum);
+		phoneTo.incomingÑall(this.num);
+	}
+
+	public void incomingÑall(int incomingNum) {
+
+		System.out.println("Subscriber " + this.num + ", subscriber " + incomingNum + " calls you");
 	}
 }
