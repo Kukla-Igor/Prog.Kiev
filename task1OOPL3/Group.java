@@ -69,7 +69,7 @@ public class Group {
 				student.setGroup(this.name);
 				students[i] = student;
 				return;
-			} else if (students[i].equals(student)) {
+			} else if (students[i].getId() == student.getId()) {
 				throw new TheStudentIsAlreadyinTheGroupExeption();
 			}
 		}
