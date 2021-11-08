@@ -1,56 +1,97 @@
 package task2OOPL6;
 
-public class MultiSum implements Runnable {
-	private int firstEl;
-	private int lastEl;
-	private int[] arr;
-	private long sum;
+import java.util.Date;
 
-	public MultiSum(int firstEl, int lastEl, int[] arr) {
-		super();
-		this.firstEl = firstEl;
-		this.lastEl = lastEl;
-		this.arr = arr;
-		this.sum = 0;
+public class Main {
+
+	public static void main(String[] args) {
+		int[] arr = new int[200000010];
+
+		long sumSimple;
+		long sumMulti;
+
+		for (int i = 0; i < arr.length; i++) {
+			arr[i] = (int) (Math.random() * 100);
+		}
+
+		sumSimple = simpleSum(arr);
+		System.out.println("The sum of array by simple method = " + sumSimple);
+
+		sumMulti = multiSum(arr);
+		System.out.println("The sum of array by multi method = " + sumMulti);
+
 	}
 
-	public int getFirstEl() {
-		return firstEl;
-	}
-
-	public void setFirstEl(int firstEl) {
-		this.firstEl = firstEl;
-	}
-
-	public int getLastEl() {
-		return lastEl;
-	}
-
-	public void setLastEl(int lastEl) {
-		this.lastEl = lastEl;
-	}
-
-	public int[] getArr() {
-		return arr;
-	}
-
-	public void setArr(int[] arr) {
-		this.arr = arr;
-	}
-
-	public long getSum() {
+	public static long simpleSum(int[] arr) {
+		long beginTime;
+		long endTime;
+		long sum = 0;
+		beginTime = new Date().getTime();
+		for (int i : arr) {
+			sum += i;
+		}
+		endTime = new Date().getTime();
+		System.out.println("Runtime by simple method = " + (endTime - beginTime));
 		return sum;
 	}
 
-	public void setSum(long sum) {
-		this.sum = sum;
-	}
+	public static long multiSum(int[] arr) {
+		long beginTime;
+		long endTime;
+		int cpu = Runtime.getRuntime().availableProcessors();
+		int step = arr.length / cpu;
+		int begin = 0;
+		int end = step;
+		long sum = 0;
+		int remainder = arr.length % cpu;
+		long sumByRem = 0; 
 
-	@Override
-	public void run() {
-		for (int i = firstEl; i < lastEl; i++) {
-			sum += arr[i];
+		MultiSum[] milMultiSumArr = new MultiSum[cpu];
+		Thread[] threads = new Thread[cpu];
+
+		for (int i = 0; i < cpu; i++) {
+			milMultiSumArr[i] = new MultiSum(begin, end, arr);
+			threads[i] = new Thread(milMultiSumArr[i]);
+			begin = end;
+			end += step;
 		}
+
+		beginTime = new Date().getTime();
+
+		for (int i = 0; i < cpu; i++) {
+			threads[i].start();
+		}
+		if (remainder != 0) {
+			MultiSum ms = new MultiSum(step * cpu, arr.length, arr);
+			Thread thrByRem = new Thread(ms);
+			thrByRem.start();
+			try {
+				thrByRem.join();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			sumByRem = ms.getSum();
+		}
+
+		try {
+			for (int i = 0; i < cpu; i++) {
+				threads[i].join();
+			}
+		} catch (InterruptedException e) {
+
+			e.printStackTrace();
+		}
+		
+
+
+		for (int i = 0; i < cpu; i++) {
+			sum += milMultiSumArr[i].getSum();
+		}
+
+		endTime = new Date().getTime();
+		System.out.println("Runtime by multi method = " + (endTime - beginTime));
+		return sum + sumByRem;
 
 	}
 
