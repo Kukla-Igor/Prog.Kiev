@@ -5,6 +5,7 @@ import ua.kiev.prog.shared.ConnectionFactory;
 import ua.kiev.prog.shared.FileToDB;
 import java.io.File;
 import java.sql.Connection;
+import java.sql.Statement;
 import java.util.List;
 import java.util.Scanner;
 
@@ -15,6 +16,11 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         String path = sc.nextLine();
         try (Connection conn = ConnectionFactory.getConnection()) {
+
+            try (Statement st = conn.createStatement()) {
+                st.execute("DROP TABLE IF EXISTS Files");
+                //st.execute("CREATE TABLE Clients (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(20) NOT NULL, age INT)");
+            }
 
 
           ClientDAO dao = new ClientDAO(conn, "Files");
@@ -40,9 +46,7 @@ public class Main {
             int id = sc.nextInt();
             for (FileToDB file:list) {
                 if (id == file.getId()){
-                    dao.delete(file);
-                    File file1 = new File(path +  "/" + file.getName());
-                    file1.delete();
+                    dao.delete(file, path);
                 }
             }
 

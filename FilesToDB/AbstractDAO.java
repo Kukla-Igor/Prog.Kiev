@@ -145,6 +145,8 @@ public abstract class AbstractDAO<T> {
             try (Statement st = conn.createStatement()) {
                 st.execute(sql);
             }
+
+
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
